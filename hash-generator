@@ -1,0 +1,18 @@
+#!/bin/bash
+
+# Prompt the user for input
+read -s -p "Enter your password: " password
+echo
+
+# Prompt the user for the salt
+read -s -p "Enter the salt: " salt
+
+# Hash the entered password using SHA-256
+hashed_password=$(echo -n "$password" | sha256sum | awk '{print $1}')
+
+# Concatenate the hash with the user-provided salt and hash the result again
+final_hash=$(echo -n "$hashed_password$salt" | sha256sum | awk '{print $1}')
+
+echo
+# Display the final hashed password
+echo "Final hashed password: $final_hash"
